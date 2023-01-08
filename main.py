@@ -1,16 +1,32 @@
-from tkinter import Tk, messagebox, Button
+import config
+import requests
 
-top = Tk()
-top.geometry("250x250")
-top.resizable(False, False)
+def get_location_coordinates(city_name):
+    url = f'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={config.api_key}'
+    json = requests.get(url).json()
 
-def helloCallBack():
-    msg = messagebox.showinfo("Hello Python", "Hello World")
+    return (json[0]['lat'], json[0]['lon'])
 
-currentPollutionButton = Button(top, text="Show current pollution data", command=helloCallBack)
-currentPollutionButton.place(x=50, y=50)
+def get_current_pollution_data(lat, lon):
+    url = f'http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={config.api_key}'
+    json = requests.get(url).json()
 
-historicalPollutionButton = Button(top, text="Show historical pollution data", command=helloCallBack)
-historicalPollutionButton.place(x=50, y=100)
+    aqi = json['list'][0]['main']['aqi']
 
-top.mainloop()
+    return aqi
+
+def get_historical_pollution_data(lat, lon, start, end):
+    url = f'http://api.openweathermap.org/data/2.5/air_pollution/history?lat={lat}&lon={lon}&start={start}&end={end}&appid={config.api_key}'
+    json = requests.get(url).json()
+    total_samples = len(json['list'])
+    print(total_samples)
+
+city_name = "berlin"
+
+lat, lon = get_location_coordinates(city_name)
+
+aqi = get_current_pollution_data(lat, lon)
+
+get_historical_pollution_data(lat, lon, 1609455600, 1672527600)
+
+print(f'The current air quality for {city_name} is {aqi}')
