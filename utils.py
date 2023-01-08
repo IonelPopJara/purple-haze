@@ -73,3 +73,27 @@ def create_graph(title, city_name, data):
     plt.xlabel('Pollutant Concentration [μg/m3]')
     plt.ylabel('Pollutant')
     plt.show()
+
+def plot(self, title, city_name, data):
+        pol_components = list(data.keys())
+        pol_values = list(data.values())
+
+        plt.style.use('ggplot')
+
+        fig = plt.figure(figsize=(10, 5))
+
+        plt.barh(pol_components, pol_values,)
+
+        plt.xlabel('Pollutant Concentration [μg/m3]')
+        plt.ylabel('Pollutant')
+        plt.title(f'{title} in {city_name}')
+
+        # Embed the graph in the app
+        self.canvas = FigureCanvasTkAgg(fig, master = self)
+        self.canvas.draw()
+
+        self.canvas.get_tk_widget().pack()
+
+        self.toolbar.update()
+
+        self.canvas.get_tk_widget().pack()

@@ -5,13 +5,6 @@ import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.figure import Figure
-
-from math import sin
-
-t = []
-for x in list(range(0,101)):
-	t.append(x/15.87)
 
 DEFAULTFONT = ("Helvetica", 15)
 TITLE = ("Helvetica", 25)
@@ -80,7 +73,7 @@ class CurrentPollutionPage(Frame):
             print(aqi, components)
             self.aqiLabel.config(text=f'Air Quality: {aqi}')
 
-            self.plot(data=components)
+            utils.plot(self, title="Air Quality", city_name=cityName, data=components)
 
         except:
             print("Something went wrong")
@@ -89,30 +82,6 @@ class CurrentPollutionPage(Frame):
     
     def goBack(self):
         self.controller.show_frame(MainPage)
-    
-    def plot(self, data):
-        pol_components = list(data.keys())
-        pol_values = list(data.values())
-
-        plt.style.use('ggplot')
-
-        fig = plt.figure(figsize=(10, 5))
-
-        plt.barh(pol_components, pol_values,)
-
-        plt.xlabel('Pollutant Concentration [μg/m3]')
-        plt.ylabel('Pollutant')
-
-        # Embed the graph in the app
-        self.canvas.get_tk_widget().pack_forget() # This cleans the canvas
-        self.canvas = FigureCanvasTkAgg(fig, master = self)
-        self.canvas.draw()
-
-        self.canvas.get_tk_widget().pack()
-
-        self.toolbar.update()
-
-        self.canvas.get_tk_widget().pack()
 
 
 class AveragePollutionPage(Frame):

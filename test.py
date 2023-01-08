@@ -48,5 +48,6 @@ def on_closing():
 app = PurpleHazeApp()
 
 app.protocol("WM_DELETE_WINDOW", on_closing)
+app.wm_title("Purple Haze")
 
 app.mainloop()
