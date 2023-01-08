@@ -3,6 +3,12 @@ import requests
 from dotenv import load_dotenv
 import os
 
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.figure import Figure
+
 load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
@@ -11,7 +17,10 @@ def get_location_coordinates(city_name):
     url = f'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={API_KEY}'
     json = requests.get(url).json()
 
-    return (json[0]['lat'], json[0]['lon'])
+    lat = json[0]['lat']
+    lon = json[0]['lon']
+
+    return (lat, lon)
 
 def get_current_pollution_data(lat, lon):
     url = f'http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API_KEY}'
@@ -48,26 +57,19 @@ def get_historical_pollution_data(lat, lon, start, end):
 
     return average_aqi, components_rounded
 
-city_name = "copiapo"
-
-lat, lon = get_location_coordinates(city_name)
-
-aqi, components = get_current_pollution_data(lat, lon)
-
-avg_aqi, avg_components = get_historical_pollution_data(lat, lon, 1669849200, 1669885200)
-
 import matplotlib.pyplot as plt
 
-data = components
+def create_graph(title, city_name, data):
+    pol_components = list(data.keys())
+    pol_values = list(data.values())
 
-pol_components = list(data.keys())
-pol_values = list(data.values())
+    plt.style.use('ggplot')
 
-plt.style.use('ggplot')
+    plt.figure(figsize=(10, 5))
 
-plt.barh(pol_components, pol_values,)
+    plt.barh(pol_components, pol_values,)
 
-plt.title(f'Air Quality in {city_name.capitalize()}')
-plt.xlabel('Pollutant Concentration [μg/m3]')
-plt.ylabel('Pollutant')
-plt.show()
+    plt.title(f'{title} {city_name.capitalize()}')
+    plt.xlabel('Pollutant Concentration [μg/m3]')
+    plt.ylabel('Pollutant')
+    plt.show()

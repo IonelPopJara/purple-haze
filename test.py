@@ -1,4 +1,5 @@
 from tkinter import Tk
+import matplotlib.pyplot as plt
 
 from pages import *
 
@@ -14,12 +15,12 @@ class PurpleHazeApp(Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.geometry("500x500")
+        self.geometry("500x700")
         self.resizable(False, False)
 
         self.frames = {}
 
-        for F in (MainPage, CurrentPollutionPage, HistoricalPollutionPage):
+        for F in (MainPage, CurrentPollutionPage, AveragePollutionPage):
 
             frame = F(container, self)
 
@@ -35,6 +36,17 @@ class PurpleHazeApp(Tk):
     
     def get_page(self, page_class):
         return self.frames[page_class]
+    
+    def quit_app(self):
+        self.destroy()
+
+def on_closing():
+    plt.close("all")
+    app.destroy()
+
 
 app = PurpleHazeApp()
+
+app.protocol("WM_DELETE_WINDOW", on_closing)
+
 app.mainloop()

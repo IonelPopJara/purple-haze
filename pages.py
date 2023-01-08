@@ -1,5 +1,17 @@
 from tkinter import Frame
 import tkinter as tk
+import utils
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.figure import Figure
+
+from math import sin
+
+t = []
+for x in list(range(0,101)):
+	t.append(x/15.87)
 
 DEFAULTFONT = ("Helvetica", 15)
 TITLE = ("Helvetica", 25)
@@ -20,16 +32,20 @@ class MainPage(Frame):
         e1.insert(0, "Enter a city name")
         e1.focus_set()
 
-        # currentPollutionButton = tk.Button(self, text="Current Pollution Data", command= lambda : controller.show_frame(CurrentPollutionPage), width=20, font=DEFAULTFONT)
         currentPollutionButton = tk.Button(self, text="Current Pollution Data", command= lambda: self.showCurrentPollutionPage(e1.get()), width=20, font=DEFAULTFONT)
         currentPollutionButton.place(x=130, rely=0.4, anchor="center")
 
-        # averagePollutionButton = tk.Button(self, text="Average Pollution Data", command= lambda : controller.show_frame(HistoricalPollutionPage), width=20, font=DEFAULTFONT)
-        # averagePollutionButton.place(x=370, rely=0.4, anchor="center")
-    
+        averagePollutionButton = tk.Button(self, text="Average Pollution Data", command= lambda : self.showAveragePollutionPage(e1.get()), width=20, font=DEFAULTFONT)
+        averagePollutionButton.place(x=370, rely=0.4, anchor="center")
+
     def showCurrentPollutionPage(self, cityName):
         self.controller.show_frame(CurrentPollutionPage)
         page = self.controller.get_page(CurrentPollutionPage)
+        page.updatePage(cityName)
+    
+    def showAveragePollutionPage(self, cityName):
+        self.controller.show_frame(AveragePollutionPage)
+        page = self.controller.get_page(AveragePollutionPage)
         page.updatePage(cityName)
 
 
@@ -38,27 +54,81 @@ class CurrentPollutionPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         self.controller = controller
+
+        self.cityNameLabel = tk.Label(self, text="City Name", font=DEFAULTFONT)
+        self.cityNameLabel.pack()
+
+        self.aqiLabel = tk.Label(self, text="Air Quality", font=DEFAULTFONT)
+        self.aqiLabel.pack()
+
+        backButton = tk.Button(self, text="Go Back", command= self.goBack)
+        backButton.pack()
+
+        self.canvas = FigureCanvasTkAgg()
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self)
     
     def updatePage(self, cityName):
-        self.__init__(self)
-        label = tk.Label(self, text=cityName, font=DEFAULTFONT)
-        label.grid(row=0, column=0, padx=10, pady=10, columnspan= 3)
+        plt.close('all')
+        self.canvas.get_tk_widget().pack_forget() # This cleans the canvas
+        
+        try:
+            lat, lon = utils.get_location_coordinates(city_name=cityName)
+            print(lat, lon)
+            self.cityNameLabel.config(text=cityName.capitalize())
+
+            aqi, components = utils.get_current_pollution_data(lat, lon)
+            print(aqi, components)
+            self.aqiLabel.config(text=f'Air Quality: {aqi}')
+
+            self.plot(data=components)
+
+        except:
+            print("Something went wrong")
+            self.cityNameLabel.config(text="City not found")
+            self.aqiLabel.config(text="Try again")
+    
+    def goBack(self):
+        self.controller.show_frame(MainPage)
+    
+    def plot(self, data):
+        pol_components = list(data.keys())
+        pol_values = list(data.values())
+
+        plt.style.use('ggplot')
+
+        fig = plt.figure(figsize=(10, 5))
+
+        plt.barh(pol_components, pol_values,)
+
+        plt.xlabel('Pollutant Concentration [μg/m3]')
+        plt.ylabel('Pollutant')
+
+        # Embed the graph in the app
+        self.canvas.get_tk_widget().pack_forget() # This cleans the canvas
+        self.canvas = FigureCanvasTkAgg(fig, master = self)
+        self.canvas.draw()
+
+        self.canvas.get_tk_widget().pack()
+
+        self.toolbar.update()
+
+        self.canvas.get_tk_widget().pack()
+
+
+class AveragePollutionPage(Frame):
+
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        self.controller = controller
+
+        self.label = tk.Label(self, text="aaaaa", font=DEFAULTFONT)
+        self.label.grid(row=0, column=0, padx=10, pady=10, columnspan= 3)
 
         backButton = tk.Button(self, text="Go Back", command= self.goBack)
         backButton.grid(row=1, column=0, padx=10, pady=10)
     
+    def updatePage(self, cityName):
+        self.label.config(text=cityName)
+
     def goBack(self):
         self.controller.show_frame(MainPage)
-
-
-class HistoricalPollutionPage(Frame):
-
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-
-        # label = tk.Label(self, text="Historical Pollution Data", font=DEFAULTFONT)
-
-        # label.grid(row=0, column=0, padx=10, pady=10)
-
-        # backButton = tk.Button(self, text="Back", command= lambda : controller.show_frame(MainPage))
-        # backButton.grid(row=1, column=0, padx=10, pady=10)

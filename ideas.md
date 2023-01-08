@@ -17,5 +17,11 @@
   * PM10
 
 pip install python-dotenv
+pip install matplotlib
+pip install request
+
+Try Catch:
 
 Considerar que pasa si la ciudad no se ingresa correctamente
+Considerar que el tiempo no es el correcto
+Considerar que la api puede estar caida
