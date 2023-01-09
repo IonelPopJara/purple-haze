@@ -25,15 +25,15 @@ class MainPage(Frame):
         e1.insert(0, "Enter a city name")
         e1.focus_set()
 
-        currentPollutionButton = Button(self, text="Current Pollution Data", command= lambda: self.show_current_pollution_page(e1.get()), width=20, font=DEFAULTFONT)
+        currentPollutionButton = Button(self, text="Current Pollution Data", command= lambda: self.show_pollution_page(e1.get()), width=20, font=DEFAULTFONT)
         currentPollutionButton.place(relx=0.5, rely=0.4, anchor="center")
 
-    def show_current_pollution_page(self, cityName):
-        self.controller.show_frame(CurrentPollutionPage)
-        page = self.controller.get_page(CurrentPollutionPage)
+    def show_pollution_page(self, cityName):
+        self.controller.show_frame(PollutionPage)
+        page = self.controller.get_page(PollutionPage)
         page.update_page(cityName)
 
-class CurrentPollutionPage(Frame):
+class PollutionPage(Frame):
 
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
@@ -46,7 +46,7 @@ class CurrentPollutionPage(Frame):
         self.aqiLabel = Label(self, text="Air Quality Index", font=DEFAULTFONT)
         self.aqiLabel.pack()
 
-        backButton = Button(self, text="Go Back", command= self.go_back)
+        backButton = Button(self, text="Go Back", command= lambda: self.controller.show_frame(MainPage))
         backButton.pack()
 
         self.canvas = FigureCanvasTkAgg()
@@ -72,6 +72,3 @@ class CurrentPollutionPage(Frame):
             print("Something went wrong")
             self.cityNameLabel.config(text="City not found")
             self.aqiLabel.config(text="Try again")
-    
-    def go_back(self):
-        self.controller.show_frame(MainPage)

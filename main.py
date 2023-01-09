@@ -1,7 +1,7 @@
 from tkinter import Tk, Frame
 import matplotlib.pyplot as plt
 
-from pages import MainPage, CurrentPollutionPage
+from pages import MainPage, PollutionPage
 
 class PurpleHazeApp(Tk):
 
@@ -20,7 +20,7 @@ class PurpleHazeApp(Tk):
 
         self.frames = {}
 
-        for F in (MainPage, CurrentPollutionPage):
+        for F in (MainPage, PollutionPage):
 
             frame = F(container, self)
 
