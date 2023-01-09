@@ -1,5 +1,5 @@
 # Purple Haze
-Purple Haze is a program destined to visualize the historical air pollution
+Purple Haze is a program destined to visualize the current air pollution using bar charts
 
 
 pip install python-dotenv
