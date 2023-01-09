@@ -6,11 +6,12 @@ import os
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 
 load_dotenv()
 
+# Maybe move this to the main class
 API_KEY = os.getenv('API_KEY')
 
 def get_location_coordinates(city_name):
@@ -57,23 +58,6 @@ def get_historical_pollution_data(lat, lon, start, end):
 
     return average_aqi, components_rounded
 
-import matplotlib.pyplot as plt
-
-def create_graph(title, city_name, data):
-    pol_components = list(data.keys())
-    pol_values = list(data.values())
-
-    plt.style.use('ggplot')
-
-    plt.figure(figsize=(10, 5))
-
-    plt.barh(pol_components, pol_values,)
-
-    plt.title(f'{title} {city_name.capitalize()}')
-    plt.xlabel('Pollutant Concentration [μg/m3]')
-    plt.ylabel('Pollutant')
-    plt.show()
-
 def plot(self, title, city_name, data):
         pol_components = list(data.keys())
         pol_values = list(data.values())
@@ -94,6 +78,6 @@ def plot(self, title, city_name, data):
 
         self.canvas.get_tk_widget().pack()
 
-        self.toolbar.update()
+        # self.toolbar.update()
 
-        self.canvas.get_tk_widget().pack()
+        # self.canvas.get_tk_widget().pack()
