@@ -1,7 +1,7 @@
-from tkinter import Tk
+from tkinter import Tk, Frame
 import matplotlib.pyplot as plt
 
-from pages import *
+from pages import MainPage, CurrentPollutionPage
 
 class PurpleHazeApp(Tk):
 
@@ -15,7 +15,7 @@ class PurpleHazeApp(Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.geometry("500x700")
+        self.geometry("500x600")
         self.resizable(False, False)
 
         self.frames = {}
@@ -36,9 +36,6 @@ class PurpleHazeApp(Tk):
     
     def get_page(self, page_class):
         return self.frames[page_class]
-    
-    def quit_app(self):
-        self.destroy()
 
 def on_closing():
     plt.close("all")
