@@ -43,7 +43,7 @@ API_KEY = ""
 
 ## Usage
 
-Once you have everything set up, you start the program by running the following command:
+Once you have everything set up, you can start the program by running the following command:
 
 ```
 python main.py
