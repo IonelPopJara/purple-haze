@@ -66,14 +66,20 @@ class PollutionPage(Frame):
             lat, lon = utils.get_location_coordinates(city_name, self.controller.API_KEY)
             self.cityNameLabel.config(text=city_name.capitalize())
 
-            aqi, components = utils.get_current_pollution_data(lat, lon, self.controller.API_KEY)
-            self.aqiLabel.config(text=f'Air Quality Index: {aqi}')
+            try:
+                aqi, components = utils.get_current_pollution_data(lat, lon, self.controller.API_KEY)
+                self.aqiLabel.config(text=f'Air Quality Index: {aqi}')
 
-            self.cityNameLabel.pack()
-            self.aqiLabel.pack()
-            self.backButton.pack()
+                self.cityNameLabel.pack()
+                self.aqiLabel.pack()
+                self.backButton.pack()
 
-            utils.embed_plot(self, title="Air Quality", city_name=city_name, data=components)
+                utils.embed_plot(self, title="Air Quality", city_name=city_name, data=components)
+            except:
+                self.aqiLabel.config(text='An error ocurred with the API')
+                self.cityNameLabel.pack()
+                self.aqiLabel.pack()
+                self.backButton.pack()
 
         except:
             self.cityNameLabel.config(text="City not found")
