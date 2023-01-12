@@ -33,7 +33,7 @@ This software makes use of the [`OpenWeather Air Pollution API`](https://openwea
 
 You can get a key from the [`OpenWeather`](https://openweathermap.org/api) website.
 
-Once you have the key, you will need to create a `.env` file in the project folder with the following information and put your `key` between the quotes.
+Then, you will need to create a `.env` file in the project folder with the following information and put your `key` between the quotes.
 
 ```
 API_KEY = ""
