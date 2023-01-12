@@ -1,6 +1,8 @@
 # Purple Haze
 Purple Haze is a simple python program destined to visualize the current air pollution using charts.
 
+> The name is inspired by a character from JoJo's Bizzare Adventure.
+
 ## Installation
 
 `Python 3 is requiered to run the program`
