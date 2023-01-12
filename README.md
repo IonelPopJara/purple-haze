@@ -49,4 +49,4 @@ Once you have everything set up, you start the program by running the following 
 python main.py
 ```
 
-![Model](resources\page-1.png.pdf)
+![Model](resources/page-1.png)
