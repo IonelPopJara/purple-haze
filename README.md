@@ -1,6 +1,8 @@
 # Purple Haze
 Purple Haze is a simple python program destined to visualize the current air pollution using charts.
 
+TODO: Explain how the fuck the polution index works
+
 ## Installation
 
 `Python 3 is requiered to run the program`
@@ -48,5 +50,7 @@ Once you have everything set up, you start the program by running the following 
 ```
 python main.py
 ```
+
+The main screen will show
 
 ![Model](resources/page-1.png)

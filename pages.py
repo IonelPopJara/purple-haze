@@ -41,15 +41,18 @@ class PollutionPage(Frame):
         Frame.__init__(self, parent)
 
         self.controller = controller
+        self.configure(background='#FDFFF7')
 
         self.cityNameLabel = Label(self, text="City Name", font=TITLE)
         self.cityNameLabel.pack()
+        self.cityNameLabel.config(bg='#FDFFF7')
 
         self.aqiLabel = Label(self, text="Air Quality Index", font=DEFAULTFONT)
         self.aqiLabel.pack()
+        self.aqiLabel.config(bg='#FDFFF7')
 
-        backButton = Button(self, text="Go Back", command= lambda: self.controller.show_frame(MainPage))
-        backButton.pack()
+        self.backButton = Button(self, text="Go Back", command= lambda: self.controller.show_frame(MainPage))
+        self.backButton.pack()
 
         self.canvas = FigureCanvasTkAgg()
     
@@ -71,3 +74,7 @@ class PollutionPage(Frame):
         except:
             self.cityNameLabel.config(text="City not found")
             self.aqiLabel.config(text="Try again")
+
+            self.cityNameLabel.place(relx=0.5, rely=0.3, anchor="center")
+            self.aqiLabel.place(relx=0.5, rely=0.45, anchor="center")
+            self.backButton.place(relx=0.5, rely=0.6, anchor="center")
