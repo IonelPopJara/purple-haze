@@ -7,6 +7,8 @@ import os
 
 from dotenv import load_dotenv
 
+import tkinter.ttk as ttk
+
 class PurpleHazeApp(Tk):
 
     def __init__(self, *args, **kwargs):

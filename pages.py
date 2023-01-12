@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-TITLE = ("Helvetica", 25)
-DEFAULTFONT = ("Helvetica", 15)
+TITLE = ("Lato bold", 25)
+DEFAULTFONT = ("Lato", 15)
 
 matplotlib.use('TkAgg')
 
@@ -16,17 +16,19 @@ class MainPage(Frame):
         Frame.__init__(self, parent)
 
         self.controller = controller
+        self.configure(background='#FDFFF7')
 
         label = Label(self, text="Welcome to Purple Haze", font=TITLE)
-        label.place(relx=0.5, rely=0.2, anchor="center")
+        label.place(relx=0.5, rely=0.3, anchor="center")
+        label.configure(background='#FDFFF7', fg='#8D3C7E')
 
         e1 = Entry(self, font=DEFAULTFONT)
-        e1.place(relx=0.5, rely=0.3, anchor="center")
+        e1.place(relx=0.5, rely=0.45, anchor="center")
         e1.insert(0, "Enter a city name")
         e1.focus_set()
 
-        currentPollutionButton = Button(self, text="Current Pollution Data", command= lambda: self.show_pollution_page(e1.get()), width=20, font=DEFAULTFONT)
-        currentPollutionButton.place(relx=0.5, rely=0.4, anchor="center")
+        currentPollutionButton = Button(self, text="Current Pollution Data", command= lambda: self.show_pollution_page(e1.get()), width=20, font=DEFAULTFONT, bg='#B4ADEA')
+        currentPollutionButton.place(relx=0.5, rely=0.6, anchor="center")
 
     def show_pollution_page(self, cityName):
         self.controller.show_frame(PollutionPage)
