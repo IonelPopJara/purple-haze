@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 
 from pages import MainPage, PollutionPage
 
+import os
+
+from dotenv import load_dotenv
+
 class PurpleHazeApp(Tk):
 
     def __init__(self, *args, **kwargs):
@@ -14,6 +18,12 @@ class PurpleHazeApp(Tk):
 
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
+
+        # Initializing the API KEY
+        # TODO: Add a try catch if no api key found
+
+        load_dotenv()
+        self.API_KEY = os.getenv('API_KEY')
 
         self.geometry("500x600")
         self.resizable(False, False)

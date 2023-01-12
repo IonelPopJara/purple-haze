@@ -51,24 +51,21 @@ class PollutionPage(Frame):
 
         self.canvas = FigureCanvasTkAgg()
     
-    def update_page(self, cityName):
+    def update_page(self, city_name):
 
         plt.close('all')
         # This cleans the canvas
         self.canvas.get_tk_widget().pack_forget()
         
         try:
-            lat, lon = utils.get_location_coordinates(city_name=cityName)
-            print(lat, lon)
-            self.cityNameLabel.config(text=cityName.capitalize())
+            lat, lon = utils.get_location_coordinates(city_name, self.controller.API_KEY)
+            self.cityNameLabel.config(text=city_name.capitalize())
 
-            aqi, components = utils.get_current_pollution_data(lat, lon)
-            print(aqi, components)
+            aqi, components = utils.get_current_pollution_data(lat, lon, self.controller.API_KEY)
             self.aqiLabel.config(text=f'Air Quality Index: {aqi}')
 
-            utils.embed_plot(self, title="Air Quality", city_name=cityName, data=components)
+            utils.embed_plot(self, title="Air Quality", city_name=city_name, data=components)
 
         except:
-            print("Something went wrong")
             self.cityNameLabel.config(text="City not found")
             self.aqiLabel.config(text="Try again")

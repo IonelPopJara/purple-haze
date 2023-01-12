@@ -1,20 +1,13 @@
 import requests
 
-from dotenv import load_dotenv
-import os
-
 import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 
-load_dotenv()
 
-# Maybe move this to the main class
-API_KEY = os.getenv('API_KEY')
-
-def get_location_coordinates(city_name):
+def get_location_coordinates(city_name, API_KEY):
     url = f'http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit=1&appid={API_KEY}'
     json = requests.get(url).json()
 
@@ -23,7 +16,7 @@ def get_location_coordinates(city_name):
 
     return (lat, lon)
 
-def get_current_pollution_data(lat, lon):
+def get_current_pollution_data(lat, lon, API_KEY):
     url = f'http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API_KEY}'
     json = requests.get(url).json()
 
