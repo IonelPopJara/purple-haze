@@ -38,7 +38,7 @@ def embed_plot(self, title, city_name, data):
 
         plt.xlabel('Pollutant Concentration [μg/m3]')
         plt.ylabel('Pollutant')
-        plt.title(f'{title} in {city_name}')
+        plt.title(f'{title} in {city_name.capitalize()}')
 
         # Embed the graph in the app
         self.canvas = FigureCanvasTkAgg(fig, master = self)
