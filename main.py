@@ -25,7 +25,7 @@ class PurpleHazeApp(Tk):
         load_dotenv()
         self.API_KEY = os.getenv('API_KEY')
 
-        self.geometry("500x600")
+        self.geometry("500x700")
         self.resizable(False, False)
 
         self.frames = {}

@@ -69,6 +69,10 @@ class PollutionPage(Frame):
             aqi, components = utils.get_current_pollution_data(lat, lon, self.controller.API_KEY)
             self.aqiLabel.config(text=f'Air Quality Index: {aqi}')
 
+            self.cityNameLabel.pack()
+            self.aqiLabel.pack()
+            self.backButton.pack()
+
             utils.embed_plot(self, title="Air Quality", city_name=city_name, data=components)
 
         except:
